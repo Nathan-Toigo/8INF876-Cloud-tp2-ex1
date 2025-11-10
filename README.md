@@ -10,21 +10,21 @@
 
 ### 2️⃣ Installations
 
-Docker
+#### Docker
 ```bash
 sudo apt-get update
 sudo apt-get install docker.io -y
 docker --version
 ```
 
-Kubectl
+#### Kubectl
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
-Minikube
+#### Minikube
 
 ```bash
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -36,13 +36,13 @@ minikube version
 
 ### Déploiement de la BD
 
-Lancement de Minikube
+#### Lancement de Minikube
 
 ```bash
 minikube start
 ```
 
-Déploiement de la base de donnée : 
+#### Déploiement de la base de donnée : 
 
 ```bash
 kubectl apply -f mysql-pvc.yaml
@@ -52,19 +52,49 @@ kubectl apply -f mysql-service.yaml
 
 ### Build et déploiement du frontend
 
-Build et application des configs : 
+#### Build et application des configs : 
 
 ```bash
-eval $(minikube docker-env)
+cd frontend
 docker build -t frontend_ex:latest .
+cd ..
+
+minikube image load frontend_ex:latest
 
 kubectl apply -f frontend-deployment.yaml
 kubectl apply -f frontend-service.yaml
 ```
 
+### Build et déploiement du backend 
+
+#### Build et application des configs : 
+
+```bash
+cd backend
+docker build -t backend_ex:latest .
+cd ..
+
+minikube image load backend_ex:latest
+
+kubectl apply -f backend-deployment.yaml
+kubectl apply -f backend-service.yaml
+```
+
+### Vérification du bon fonctionnement des pods
+```bash
+kubectl get pods
+```
+Devrait donner quelque chose comme : 
+```
+NAME                       READY   STATUS    RESTARTS   AGE
+frontend-885f4f4f7-pzv9m   1/1     Running   0          29s
+frontend-885f4f4f7-xwnbz   1/1     Running   0          29s
+mysql-76c6bd657c-jdmjl     1/1     Running   0          65s
+```
+
 ## Accès au serveur déployé
 
-Récuperation de l'adresse du serveur
+#### Récuperation de l'adresse du serveur
 ```bash
 minikube service frontend
 ```

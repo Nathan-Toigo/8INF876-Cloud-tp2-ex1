@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    proxy: {
+      "/api": "http://backend:3000", // 👈 Service interne Kubernetes
+    },
   },
 })
