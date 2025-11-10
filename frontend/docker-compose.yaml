@@ -1,0 +1,6 @@
+services:
+  frontend:
+    image: frontend_ex:latest
+    ports:
+      - "8080:80"
+    container_name: frontend_container
