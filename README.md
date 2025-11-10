@@ -87,9 +87,10 @@ kubectl get pods
 Devrait donner quelque chose comme : 
 ```
 NAME                       READY   STATUS    RESTARTS   AGE
-frontend-885f4f4f7-pzv9m   1/1     Running   0          29s
-frontend-885f4f4f7-xwnbz   1/1     Running   0          29s
-mysql-76c6bd657c-jdmjl     1/1     Running   0          65s
+backend-648d8bd554-q5shv   1/1     Running   0          Xm
+frontend-885f4f4f7-89k5d   1/1     Running   0          Xm
+frontend-885f4f4f7-fchzm   1/1     Running   0          Xm
+mysql-76c6bd657c-p9sxq     1/1     Running   0          Xm
 ```
 
 ## Accès au serveur déployé
@@ -102,6 +103,8 @@ minikube service frontend
 ## 🧹 Nettoyage
 
 ```bash
+kubectl delete -f backend-service.yaml
+kubectl delete -f backend-deployment.yaml
 kubectl delete -f frontend-service.yaml
 kubectl delete -f frontend-deployment.yaml
 kubectl delete -f mysql-service.yaml
